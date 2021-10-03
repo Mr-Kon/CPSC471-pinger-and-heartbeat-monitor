@@ -7,14 +7,14 @@ clientSocket = socket(AF_INET, SOCK_DGRAM)
 clientPort = 12000
 i = 1
 while True:
-	clientSocket.settimeout(1)
+	time.sleep(5)
+	clientSocket.settimeout(10)
 	message = f'heartbeat pulse {i}'
-	
 	clientSocket.sendto(message.encode(), (serverName, clientPort))
 	try:
 		modifiedMessage, serverAddress = clientSocket.recvfrom(2048)
-		print(f'Ping {i+1}: host {serverAddress[0]} replied: {modifiedMessage.decode()}')
+		print(message)
 	except timeout:
-		print(f'Ping {i+1}: Timed out, message was lost')
+		break
 	i += 1
 clientSocket.close()
